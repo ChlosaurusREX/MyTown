@@ -1,0 +1,22 @@
+# .htaccess — only needed if you BUILD the React app (npm run build)
+# and serve it through Apache/XAMPP (i.e. you copied the contents of
+# "dist" into htdocs/mytown-app).
+#
+# This makes /admin (and any other client-side route) load index.html
+# instead of returning a 404, so React can take over and render the
+# correct page based on the URL.
+#
+# Not needed if you're running the app with `npm run dev` — Vite's
+# dev server already handles this automatically.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /mytown-app/
+
+  # If the request is NOT for a real file or folder...
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # ...serve index.html instead, and let React Router/the app handle it
+  RewriteRule . /mytown-app/index.html [L]
+</IfModule>
